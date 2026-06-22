@@ -8,9 +8,10 @@ import {
     getIncidentById,
     getMyIncidents,
     updateIncident,
-    deleteIncident
+    deleteIncident,
+    uploadIncidentImage
 } from "../controllers/incidentController.js";
-
+import upload from "../utils/multerConfig.js";
 
 const router = express.Router();
 
@@ -44,6 +45,13 @@ router.delete(
     "/:id",
     protect,
     deleteIncident
+);
+
+router.post(
+    "/:id/image",
+    protect,
+    upload.single("image"),
+    uploadIncidentImage
 );
 
 export default router;

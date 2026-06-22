@@ -5,7 +5,8 @@ import {
     getIncidentByIdService,
     getMyIncidentsService,
     updateIncidentService,
-    deleteIncidentService
+    deleteIncidentService,
+    uploadIncidentImageService
 } from "../services/incidentService.js";
 
 export const createIncident = async (req, res) => {
@@ -143,3 +144,28 @@ export const deleteIncident =
             });
         }
     };
+
+export const uploadIncidentImage = async (req, res) => {
+    try {
+        const imageUrl =
+            `/uploads/${req.file.filename}`;
+
+        const incident =
+            await uploadIncidentImageService(
+                req.params.id,
+                req.user.id,
+                imageUrl
+            );
+
+        res.json({
+            success: true,
+            incident,
+        });
+
+    } catch (error) {
+        res.status(400).json({
+            success: false,
+            message: error.message,
+        });
+    }
+}

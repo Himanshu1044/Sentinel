@@ -1,5 +1,5 @@
 import { createIncident } from "../repositories/incidentRepository.js";
-import { getAllIncidents, getIncidentById, getIncidentsByUserId, updateIncident, deleteIncident } from "../repositories/incidentRepository.js";
+import { getAllIncidents, getIncidentById, getIncidentsByUserId, updateIncident, deleteIncident, updateIncidentImage } from "../repositories/incidentRepository.js";
 
 export const createIncidentService = async (data, userId) => {
     return await createIncident({
@@ -82,3 +82,23 @@ export const deleteIncidentService =
             incidentId
         );
     };
+
+export const uploadIncidentImageService = async (incidentId, userId, imageUrl) => {
+    const incident = await getIncidentById(incidentId);
+
+    if (!incident) {
+        throw new Error(
+            "Incident not found"
+        );
+    }
+
+    if (
+        incident.user_id !== userId
+    ) {
+        throw new Error(
+            "Unauthorized"
+        );
+    }
+
+    return await updateIncidentImage(incidentId, imageUrl)
+}

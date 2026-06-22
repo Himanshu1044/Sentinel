@@ -80,16 +80,21 @@ export const updateIncident = async (
 };
 
 export const deleteIncident = async (
-  id
+    id
 ) => {
-  const result = await pool.query(
-    `
+    const result = await pool.query(
+        `
     DELETE FROM incidents
     WHERE id = $1
     RETURNING *
     `,
-    [id]
-  );
+        [id]
+    );
 
-  return result.rows[0];
+    return result.rows[0];
 };
+
+export const updateIncidentImage = async (incidentId, imageUrl) => {
+    const result = await pool.query('update incidents SET image_url=$1 where id = $2 RETURNING *', [imageUrl, incidentId])
+    return result.rows[0];
+}
