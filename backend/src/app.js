@@ -2,6 +2,7 @@ import express, { urlencoded } from 'express';
 import cors from 'cors';
 import authRoutes from './routes/authRoutes.js'
 import incidentRoutes from "./routes/incidentRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 import path from 'path';
 
 
@@ -20,8 +21,11 @@ app.use(
     express.static("uploads")
 );
 
+app.use('/api/admin', adminRoutes)
+
 app.get('/', (req, res) => {
     res.send('Sentinel api running');
 });
+
 
 export default app;

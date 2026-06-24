@@ -98,3 +98,16 @@ export const updateIncidentImage = async (incidentId, imageUrl) => {
     const result = await pool.query('update incidents SET image_url=$1 where id = $2 RETURNING *', [imageUrl, incidentId])
     return result.rows[0];
 }
+
+export const updateIncidentStatus = async (incidentId, status) => {
+    const result = await pool.query('update incidents SET status = $1,created_at = CURRENT_TIMESTAMP where id =$2 RETURNING *', [status, incidentId])
+    return result.rows[0];
+}
+
+export const getPendingIncidents = async () => {
+    const result = await pool.query(`SELECT *
+                FROM incidents
+                WHERE status = 'pending'
+                ORDER BY created_at DESC`);
+    return result.rows;
+}
