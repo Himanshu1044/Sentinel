@@ -9,9 +9,15 @@ import {
     uploadIncidentImageService
 } from "../services/incidentService.js";
 
+import { getIO } from "../socket/socket.js";
+
 export const createIncident = async (req, res) => {
     try {
         const incident = await createIncidentService(req.body, req.user.id)
+
+        const io = getIO();
+
+        io.emit("incidentCreated", incident);
 
         res.status(201).json({
             success: true,
@@ -110,6 +116,10 @@ export const updateIncident =
                     req.body
                 );
 
+            const io = getIO();
+
+            io.emit("incidentUpdated", incident);
+
             res.json({
                 success: true,
                 incident,
@@ -130,7 +140,12 @@ export const deleteIncident =
                     req.params.id,
                     req.user.id
                 );
+            const io = getIO();
 
+            io.emit("incidentDeleted", {
+                id: req.params.id,
+            });
+            
             res.json({
                 success: true,
                 message:
