@@ -7,10 +7,93 @@ export const createIncident = async ({
     return result.rows[0];
 }
 
-export const getAllIncidents = async () => {
-    const result = await pool.query('SELECT * FROM incidents ORDER BY created_at')
+export const getIncidentCount = async (
+    status,
+    category
+) => {
+
+    let query = `
+        SELECT COUNT(*) AS total
+        FROM incidents
+        WHERE 1=1
+    `;
+
+    const values = [];
+    let index = 1;
+
+    if (status) {
+        query += ` AND status = $${index}`;
+        values.push(status);
+        index++;
+    }
+
+    if (category) {
+        query += ` AND category = $${index}`;
+        values.push(category);
+    }
+
+    const result = await pool.query(
+        query,
+        values
+    );
+
+    return parseInt(
+        result.rows[0].total
+    );
+};
+
+export const getAllIncidents = async (
+    page = 1,
+    limit = 10,
+    status,
+    category,
+    sort = "newest"
+) => {
+
+    const offset = (page - 1) * limit;
+
+    let query = `
+        SELECT *
+        FROM incidents
+        WHERE 1=1
+    `;
+
+    const values = [];
+    let index = 1;
+
+    if (status) {
+        query += ` AND status = $${index}`;
+        values.push(status);
+        index++;
+    }
+
+    if (category) {
+        query += ` AND category = $${index}`;
+        values.push(category);
+        index++;
+    }
+
+    const orderBy =
+        sort === "oldest"
+            ? "ASC"
+            : "DESC";
+
+    query += `
+    ORDER BY created_at ${orderBy}
+    LIMIT $${index}
+    OFFSET $${index + 1}
+`;
+
+    values.push(limit);
+    values.push(offset);
+
+    const result = await pool.query(
+        query,
+        values
+    );
+
     return result.rows;
-}
+};
 
 export const getIncidentById = async (id) => {
     const result = await pool.query(
@@ -111,3 +194,39 @@ export const getPendingIncidents = async () => {
                 ORDER BY created_at DESC`);
     return result.rows;
 }
+
+export const getIncidentStatistics = async () => {
+
+    const result = await pool.query(`
+        SELECT
+            COUNT(*) AS "totalIncidents",
+
+            COUNT(*) FILTER (
+                WHERE status = 'pending'
+            ) AS pending,
+
+            COUNT(*) FILTER (
+                WHERE status = 'approved'
+            ) AS approved,
+
+            COUNT(*) FILTER (
+                WHERE status = 'rejected'
+            ) AS rejected,
+
+            COUNT(*) FILTER (
+                WHERE DATE(created_at) = CURRENT_DATE
+            ) AS today
+
+        FROM incidents
+    `);
+
+    const stats = result.rows[0];
+
+    return {
+        totalIncidents: Number(stats.totalIncidents),
+        pending: Number(stats.pending),
+        approved: Number(stats.approved),
+        rejected: Number(stats.rejected),
+        today: Number(stats.today),
+    };
+};

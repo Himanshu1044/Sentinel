@@ -16,6 +16,7 @@ import upload from "../utils/multerConfig.js";
 const router = express.Router();
 
 router.post('/', protect, validate(createIncidentSchema), createIncident)
+
 router.get(
     "/",
     getAllIncidents

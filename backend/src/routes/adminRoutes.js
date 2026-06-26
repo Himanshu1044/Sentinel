@@ -1,7 +1,7 @@
 import express from 'express'
 import { protect } from '../middlewares/authMiddleware.js';
 import { adminOnly } from '../middlewares/adminMiddleware.js';
-import { getAllIncidentsForAdmin, updateIncidentStatus, getPendingIncidents } from '../controllers/adminController.js';
+import { getAllIncidentsForAdmin, updateIncidentStatus, getPendingIncidents, getIncidentStatistics } from '../controllers/adminController.js';
 import { validate } from '../middlewares/validate.js';
 import { updateIncidentStatusSchema } from '../validators/adminValidator.js';
 
@@ -24,6 +24,13 @@ router.get(
     protect,
     adminOnly,
     getPendingIncidents
+);
+
+router.get(
+    "/stats",
+    protect,
+    adminOnly,
+    getIncidentStatistics
 );
 
 export default router;

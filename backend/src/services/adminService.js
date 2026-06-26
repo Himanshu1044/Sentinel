@@ -1,7 +1,7 @@
 import { getAllIncidents, getIncidentById }
     from "../repositories/incidentRepository.js";
 
-import { updateIncidentStatus ,getPendingIncidents} from '../repositories/incidentRepository.js'
+import { updateIncidentStatus, getPendingIncidents, getIncidentStatistics } from '../repositories/incidentRepository.js'
 
 export const getAllIncidentsForAdminService = async () => {
     return await getAllIncidents();
@@ -22,3 +22,7 @@ export const updateIncidentStatusService = async (incidentId, status) => {
 export const getPendingIncidentsService = async () => {
     return await getPendingIncidents();
 }
+
+export const getIncidentStatisticsService = async () => {
+    return await getIncidentStatistics();
+};

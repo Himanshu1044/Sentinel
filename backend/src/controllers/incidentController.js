@@ -37,19 +37,44 @@ export const getAllIncidents = async (
     res
 ) => {
     try {
-        const incidents =
-            await getAllIncidentsService();
+
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+
+        const { status, category, sort } = req.query;
+
+        const {
+            incidents,
+            totalIncidents,
+        } = await getAllIncidentsService(
+            page,
+            limit,
+            status,
+            category,
+            sort
+        );
+
+        const totalPages = Math.ceil(
+            totalIncidents / limit
+        );
 
         res.json({
             success: true,
+            page,
+            limit,
+            totalIncidents,
+            totalPages,
             count: incidents.length,
             incidents,
         });
+
     } catch (error) {
+
         res.status(500).json({
             success: false,
             message: error.message,
         });
+
     }
 };
 
@@ -145,7 +170,7 @@ export const deleteIncident =
             io.emit("incidentDeleted", {
                 id: req.params.id,
             });
-            
+
             res.json({
                 success: true,
                 message:

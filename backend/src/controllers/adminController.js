@@ -1,7 +1,8 @@
 import {
     getAllIncidentsForAdminService,
     updateIncidentStatusService,
-    getPendingIncidentsService
+    getPendingIncidentsService,
+    getIncidentStatisticsService
 } from "../services/adminService.js";
 
 export const getAllIncidentsForAdmin = async (req, res) => {
@@ -60,3 +61,23 @@ export const getPendingIncidents =
 
         }
     };
+
+export const getIncidentStatistics = async (req, res) => {
+    try {
+
+        const stats = await getIncidentStatisticsService();
+
+        res.json({
+            success: true,
+            stats,
+        });
+
+    } catch (error) {
+
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+
+    }
+};

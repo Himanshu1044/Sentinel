@@ -5,7 +5,6 @@ import incidentRoutes from "./routes/incidentRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import path from 'path';
 
-
 const app = express();
 
 app.use(cors());

@@ -1,5 +1,13 @@
 import { createIncident } from "../repositories/incidentRepository.js";
-import { getAllIncidents, getIncidentById, getIncidentsByUserId, updateIncident, deleteIncident, updateIncidentImage } from "../repositories/incidentRepository.js";
+import {
+    getAllIncidents,
+    getIncidentById,
+    getIncidentsByUserId,
+    updateIncident,
+    deleteIncident,
+    updateIncidentImage,
+    getIncidentCount
+} from "../repositories/incidentRepository.js";
 
 export const createIncidentService = async (data, userId) => {
     return await createIncident({
@@ -7,9 +15,34 @@ export const createIncidentService = async (data, userId) => {
     });
 };
 
-export const getAllIncidentsService = async () => {
-    return await getAllIncidents();
-}
+export const getAllIncidentsService = async (
+    page,
+    limit,
+    status,
+    category,
+    sort
+) => {
+
+    const incidents =
+        await getAllIncidents(
+            page,
+            limit,
+            status,
+            category,
+            sort
+        );
+
+    const totalIncidents =
+        await getIncidentCount(
+            status,
+            category
+        );
+
+    return {
+        incidents,
+        totalIncidents,
+    };
+};
 
 export const getIncidentByIdService =
     async (id) => {
