@@ -4,10 +4,12 @@ import authRoutes from './routes/authRoutes.js'
 import incidentRoutes from "./routes/incidentRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import path from 'path';
+import { errorHandler } from "./middlewares/errorMiddleware.js";
 
 const app = express();
 
 app.use(cors());
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
@@ -26,5 +28,6 @@ app.get('/', (req, res) => {
     res.send('Sentinel api running');
 });
 
+app.use(errorHandler);
 
 export default app;

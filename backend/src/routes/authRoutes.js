@@ -19,6 +19,7 @@ router.get('/me', protect, (req, res) => {
         user: req.user,
     })
 })
+
 router.post('/register', validate(registerSchema), register);
 router.post('/login', validate(loginSchema), login)
 

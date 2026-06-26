@@ -1,124 +1,212 @@
-# Sentinel - Milestone 1 (Authentication)
+# Sentinel - Milestone 1 Completion Report
 
-## What was built?
+## Overview
 
-In this milestone, users can create an account, log in, and access protected parts of the application securely.
+Milestone 1 focused on implementing the Authentication and Authorization system for the Sentinel Real-Time Crime & Incident Reporting Platform.
 
-Think of it as building the main entrance and security system before constructing the rest of the building.
+The goal was to establish a secure foundation that allows users to register, log in, and access protected resources using JWT-based authentication.
 
 ---
 
-## Features Completed
+## Features Implemented
 
-### User Registration
+### 1. User Registration
 
-Users can create a new account by providing:
+Implemented a user registration API that allows new users to create accounts.
+
+Features:
+
+* Input validation using Zod
+* Password hashing using bcrypt
+* Duplicate email prevention
+* PostgreSQL data persistence
+
+Endpoint:
+
+POST /api/auth/register
+
+Request Body:
+
+{
+"name": "John Doe",
+"email": "[john@example.com](mailto:john@example.com)",
+"password": "password123"
+}
+
+---
+
+### 2. User Login
+
+Implemented a login API that authenticates users using email and password.
+
+Features:
+
+* Email verification
+* Password verification using bcrypt.compare()
+* JWT token generation
+* Secure login response
+
+Endpoint:
+
+POST /api/auth/login
+
+---
+
+### 3. JWT Authentication
+
+Implemented token-based authentication using JSON Web Tokens.
+
+Features:
+
+* Token generation after successful login
+* Token verification middleware
+* Protected route support
+* User information extraction from token payload
+
+---
+
+### 4. Authorization Middleware
+
+Created authentication middleware to protect sensitive routes.
+
+Features:
+
+* Bearer token validation
+* Invalid token handling
+* Unauthorized request handling
+* User attachment to request object
+
+---
+
+### 5. Input Validation
+
+Implemented request validation using Zod schemas.
+
+Validated:
 
 * Name
 * Email
 * Password
 
-The system checks that the information is valid and prevents duplicate accounts.
+Benefits:
+
+* Prevents invalid data entry
+* Consistent API responses
+* Improved security
 
 ---
 
-### User Login
+## Project Structure
 
-Registered users can log in using their email and password.
+src/
 
-If the credentials are correct, the system grants access.
+config/
 
----
+* db.js
 
-### Password Security
+controllers/
 
-Passwords are not stored directly in the database.
+* authController.js
 
-They are converted into a secure encrypted format before being saved.
+middlewares/
 
-This helps protect user data even if the database is compromised.
+* authMiddleware.js
+* validate.js
 
----
+repositories/
 
-### Authentication
+* userRepository.js
 
-After login, the system generates a secure access token.
+routes/
 
-This token acts like a digital ID card and is required to access protected resources.
+* authRoutes.js
 
----
+services/
 
-### Protected Routes
+* authService.js
 
-Certain endpoints can only be accessed by authenticated users.
+utils/
 
-If a user is not logged in or provides an invalid token, access is denied.
+* generateToken.js
 
----
+validators/
 
-## APIs Created
-
-### Register User
-
-POST /api/auth/register
-
-Creates a new user account.
+* authValidator.js
 
 ---
 
-### Login User
+## Database Schema
 
-POST /api/auth/login
+users
 
-Authenticates a user and returns an access token.
+Columns:
 
----
-
-### Get Current User
-
-GET /api/auth/me
-
-Returns information about the currently logged-in user.
+* id
+* name
+* email
+* password
+* role
+* created_at
 
 ---
 
 ## Technologies Used
 
+Backend:
+
 * Node.js
 * Express.js
+
+Database:
+
 * PostgreSQL
-* JWT Authentication
+
+Authentication:
+
+* JWT
 * bcrypt
-* Zod Validation
+
+Validation:
+
+* Zod
+
+Environment Management:
+
+* dotenv
 
 ---
 
-## Current Status
+## APIs Implemented
 
-✅ User Registration
+POST /api/auth/register
 
-✅ User Login
+POST /api/auth/login
 
-✅ Password Security
-
-✅ JWT Authentication
-
-✅ Protected Routes
-
-✅ Input Validation
+GET /api/auth/me
 
 ---
 
-## Next Milestone
+## Challenges Faced
 
-Milestone 2: Incident Management
+* PostgreSQL configuration and connection management
+* ES Module setup
+* JWT token verification issues
+* Route protection implementation
+* Request validation architecture
 
-Planned Features:
+---
 
-* Create Incident
-* View Incidents
-* Update Incident
-* Delete Incident
-* View Personal Reports
+## Outcome
 
-Milestone 1 Status: COMPLETED
+Milestone 1 successfully delivers a secure authentication and authorization system that serves as the foundation for future Sentinel features.
+
+The application now supports:
+
+* User registration
+* User login
+* Password hashing
+* JWT authentication
+* Protected routes
+* Request validation
+
+Status: Completed
