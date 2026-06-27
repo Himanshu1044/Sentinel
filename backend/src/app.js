@@ -18,10 +18,10 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/api/auth', authRoutes)
 app.use('/api/incidents', incidentRoutes)
 
-app.use(
-    "/uploads",
-    express.static("uploads")
-);
+// app.use(
+//     "/uploads",
+//     express.static("uploads")
+// );
 
 app.use('/api/admin', adminRoutes)
 
