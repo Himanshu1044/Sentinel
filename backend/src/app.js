@@ -5,6 +5,7 @@ import incidentRoutes from "./routes/incidentRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import path from 'path';
 import { errorHandler } from "./middlewares/errorMiddleware.js";
+import profileRoutes from "./routes/profileRoutes.js";
 
 const app = express();
 
@@ -24,9 +25,12 @@ app.use(
 
 app.use('/api/admin', adminRoutes)
 
+app.use('/api/profile', profileRoutes)
+
 app.get('/', (req, res) => {
     res.send('Sentinel api running');
 });
+
 
 app.use(errorHandler);
 

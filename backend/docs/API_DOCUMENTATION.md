@@ -355,3 +355,81 @@ Failed requests:
   "message": "Error message"
 }
 ```
+
+## Profile API
+
+### Get Profile
+
+**GET** `/api/profile`
+
+Returns the authenticated user's profile.
+
+**Response**
+
+```json
+{
+    "success": true,
+    "user": {
+        "id": 1,
+        "name": "Himanshu",
+        "email": "himanshu@example.com",
+        "role": "user",
+        "created_at": "2026-06-27T10:15:30.000Z"
+    }
+}
+```
+
+---
+
+### Update Profile
+
+**PUT** `/api/profile`
+
+Updates the authenticated user's name and email.
+
+**Request**
+
+```json
+{
+    "name": "Himanshu Swami",
+    "email": "himanshu@example.com"
+}
+```
+
+**Response**
+
+```json
+{
+    "success": true,
+    "message": "Profile updated successfully",
+    "user": {
+        "id": 1,
+        "name": "Himanshu Sharma",
+        "email": "himanshu@example.com",
+        "role": "user",
+        "created_at": "2026-06-27T10:15:30.000Z"
+    }
+}
+```
+
+---
+
+### Get Profile Statistics
+
+**GET** `/api/profile/stats`
+
+Returns statistics for the authenticated user.
+
+**Response**
+
+```json
+{
+    "success": true,
+    "stats": {
+        "totalReports": 12,
+        "approved": 7,
+        "pending": 3,
+        "rejected": 2
+    }
+}
+```
