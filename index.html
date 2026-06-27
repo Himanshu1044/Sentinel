@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Socket Test</title>
+</head>
+
+<body>
+
+    <h2>Socket Test</h2>
+
+    <script src="http://localhost:5000/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io("http://localhost:5000");
+
+        socket.on("connect", () => {
+            console.log("Connected:", socket.id);
+        });
+
+        socket.on("welcome", (data) => {
+            console.log(data);
+        });
+
+        socket.on("incidentCreated", (incident) => {
+            console.log("New Incident:", incident);
+        })
+
+        socket.on("incidentUpdated", (incident) => {
+            console.log("Updated:", incident);
+        });
+
+        socket.on("incidentDeleted", (data) => {
+            console.log("Deleted:", data.id);
+        });
+    </script>
+
+</body>
+
+</html>
