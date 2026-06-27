@@ -2,7 +2,7 @@ import express from 'express';
 import { protect } from '../middlewares/authMiddleware.js';
 import { validate } from "../middlewares/validate.js";
 import { createIncident } from "../controllers/incidentController.js";
-import { createIncidentSchema } from "../validators/incidentValidator.js";
+import { createIncidentSchema, updateIncidentSchema } from "../validators/incidentValidator.js";
 import {
     getAllIncidents,
     getIncidentById,
@@ -37,7 +37,7 @@ router.put(
     "/:id",
     protect,
     validate(
-        createIncidentSchema
+        updateIncidentSchema
     ),
     updateIncident
 );

@@ -7,3 +7,9 @@ export const createIncidentSchema = z.object({
     latitude: z.number(),
     longitude: z.number(),
 });
+
+export const updateIncidentSchema = z.object({
+    title: z.string().min(5),
+    description: z.string().min(10),
+    category: z.string(),
+});

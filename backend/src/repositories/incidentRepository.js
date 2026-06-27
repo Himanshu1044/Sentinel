@@ -132,8 +132,6 @@ export const updateIncident = async (
         title,
         description,
         category,
-        latitude,
-        longitude,
     } = data;
 
     const result = await pool.query(
@@ -143,18 +141,14 @@ export const updateIncident = async (
       title = $1,
       description = $2,
       category = $3,
-      latitude = $4,
-      longitude = $5,
-      created_at = CURRENT_TIMESTAMP
-    WHERE id = $6
+       updated_at = CURRENT_TIMESTAMP
+    WHERE id = $4
     RETURNING *
     `,
         [
             title,
             description,
             category,
-            latitude,
-            longitude,
             id,
         ]
     );
